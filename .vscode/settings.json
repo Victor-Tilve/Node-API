@@ -1,0 +1,11 @@
+{
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "eslint.format.enable": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": false
+    },
+    "files.exclude": {
+        "**/.git": true
+    },
+    "editor.tabSize": 2
+}

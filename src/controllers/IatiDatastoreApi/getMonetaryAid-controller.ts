@@ -18,7 +18,6 @@ export class IatiDatastoreGetMonetaryAid implements Controller {
       }
     }
     const { countryCode } = httpRequest.body
-    console.log('IsoAlpha2[countryCode] !== undefined: ' + IsoAlpha2[countryCode] !== undefined)
 
     if (IsoAlpha2[countryCode] !== undefined) {
       try {

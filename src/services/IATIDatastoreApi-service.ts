@@ -12,6 +12,8 @@ export class IatiDatastoreApiService {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, prefer-const
     let monetaryAidResponse: MonetaryAidResponse = {}
     const dataResponse = await this.iatiDatastoreApiRepository.fetchData(params)
+    console.log('IatiDatastoreApiService::getData::dataResponse.response.numFound: ' + String(dataResponse.response?.numFound))
+
     const docs = dataResponse.response?.docs
     if (docs) {
       for (let index = 0; index < docs.length; index++) {

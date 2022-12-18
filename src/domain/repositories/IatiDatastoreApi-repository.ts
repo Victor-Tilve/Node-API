@@ -5,7 +5,7 @@ import { IIatiDatastoreApiResponse, IQueryParams } from '../../interfaces/transa
 export class IatiDatastoreApiRepository {
   // COMEBACK: Fix any issue
   async fetchData (params: IQueryParams): Promise<IIatiDatastoreApiResponse> {
-    console.log('IatiDatastoreApiRepository::fetchData: Inside')
+    ('IatiDatastoreApiRepository::fetchData: Inside')
     const url = `https://api.iatistandard.org/datastore/${params.collection}/select?
     q=${params.q}&
     fl=${params.fl}&
@@ -18,7 +18,6 @@ export class IatiDatastoreApiRepository {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     let apiResponse: any
     try {
-      console.log('IatiDatastoreApiRepository::fetchData: Before axios response')
       apiResponse = await axios.get(url, {
         headers: {
           'Ocp-Apim-Subscription-Key': process.env.PRIMARYKEY,
@@ -29,7 +28,6 @@ export class IatiDatastoreApiRepository {
       console.log('error:' + String(error))
       apiResponse.data = undefined
     }
-    console.log('IatiDatastoreApiRepository::fetchData:Request sent to the API')
     return apiResponse.data as IIatiDatastoreApiResponse
   }
 }

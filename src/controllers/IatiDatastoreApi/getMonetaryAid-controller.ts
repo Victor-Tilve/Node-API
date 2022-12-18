@@ -10,17 +10,14 @@ export class IatiDatastoreGetMonetaryAid implements Controller {
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    // console.log('IatiDatastoreGetMonetaryAid: inside')
-    // console.log('IatiDatastoreGetMonetaryAid::httpRequest: ' + JSON.stringify(httpRequest))
-    // console.log('IatiDatastoreGetMonetaryAid::httpRequest.body: ' + JSON.stringify(httpRequest.body))
     try {
       const requiredProperties = ['countryCode']
-
       for (const prop of requiredProperties) {
         if (httpRequest.body[prop] === undefined) {
           return badRequest(new MissingFormalParameter(prop))
         }
       }
+      // FIXME: Verify Country code in ISO alpha 2
       const { countryCode } = httpRequest.body
       const monetaryAidResponse = await this.dataIATIDatastoreApi.getMonetaryAid(countryCode)
       return success(monetaryAidResponse)

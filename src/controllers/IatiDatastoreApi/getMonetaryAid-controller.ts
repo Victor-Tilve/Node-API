@@ -22,9 +22,7 @@ export class IatiDatastoreGetMonetaryAid implements Controller {
         }
       }
       const { countryCode } = httpRequest.body
-      console.log('IatiDatastoreGetMonetaryAid: Before')
       const monetaryAidResponse = await this.dataIATIDatastoreApi.getMonetaryAid(countryCode)
-      console.log('IatiDatastoreGetMonetaryAid: After')
       return success(monetaryAidResponse)
     } catch (error) {
       return serverError(error)

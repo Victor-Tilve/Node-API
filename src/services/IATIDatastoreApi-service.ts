@@ -9,21 +9,16 @@ export class IatiDatastoreApiService {
   }
 
   async getData (params: IQueryParams): Promise<MonetaryAidResponse> {
-    console.log('IatiDatastoreApiService::getData: inside')
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, prefer-const
     let monetaryAidResponse: MonetaryAidResponse = {}
     const dataResponse = await this.iatiDatastoreApiRepository.fetchData(params)
     const docs = dataResponse.response?.docs
-    console.log('iatiDatastoreApi::getMonetaryAid::docs: ' + JSON.stringify(docs))
     if (docs) {
       for (let index = 0; index < docs.length; index++) {
         const date = docs[index].transaction_value_value_date ?? undefined
         const year = date !== undefined ? new Date(date[0]).getFullYear() : undefined
         const providerOrg = docs[index].transaction_provider_org_narrative?.[0] ?? undefined
         const transactionValue = docs[index].transaction_value?.[0] ?? undefined
-        console.log('IatiDatastoreApiService::getData::year: ' + JSON.stringify(year))
-        console.log('IatiDatastoreApiService::getData::providerOrg: ' + JSON.stringify(providerOrg))
-        console.log('IatiDatastoreApiService::getData::transactionValue: ' + JSON.stringify(transactionValue))
 
         // FIXME: I need to make the currency conversion
         if (year !== undefined && providerOrg !== undefined && transactionValue !== undefined) {
@@ -38,8 +33,6 @@ export class IatiDatastoreApiService {
         }
       }
     }
-
-    console.log('iatiDatastoreApi::getMonetaryAid::monetaryAidResponse: ' + JSON.stringify(monetaryAidResponse))
     return monetaryAidResponse
   }
 }

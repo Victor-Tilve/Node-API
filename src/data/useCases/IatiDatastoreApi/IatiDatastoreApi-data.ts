@@ -11,7 +11,7 @@ export class IatiDatastoreApiData implements IIatiDatastoreApiData {
 
   async getMonetaryAid (countryCode: string): Promise<MonetaryAidResponse> {
     console.log('IatiDatastoreApiData::getMonetaryAid: inside')
-    const numOfRows: number = 10
+    const numOfRows: number = 1000
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     const params: IQueryParams = {
       collection: 'transaction',

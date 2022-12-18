@@ -23,11 +23,10 @@ export class IatiDatastoreApiData implements IIatiDatastoreApiData {
       df: 'recipient_country_code',
       start: '0',
       rows: String(numOfRows),
-      fq: `transaction_value_value_date:[${dateYearsAgo} TO ${now}]`, // FIXME: remember, 5 years
+      fq: `transaction_value_value_date:[${dateYearsAgo} TO ${now}]`,
       fl: 'transaction_value,transaction_value_currency,transaction_value_value_date,transaction_provider_org_narrative'
     }
     const dataResponse = await this.iatiDatastoreApiService.getData(params)
-    // FIXME: Process data. Respect dataResponse
 
     return dataResponse
   }

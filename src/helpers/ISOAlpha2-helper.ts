@@ -1,6 +1,6 @@
 import { ICountryCode } from '../interfaces/transaction-interface'
 
-export const countryCode: ICountryCode = {
+export const IsoAlpha2: ICountryCode = {
   AF: 'Afghanistan',
   AX: 'Aland Islands',
   AL: 'Albania',

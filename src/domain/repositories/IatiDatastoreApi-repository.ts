@@ -3,7 +3,6 @@ import axios from 'axios'
 import { IIatiDatastoreApiResponse, IQueryParams } from '../../interfaces/transaction-interface'
 
 export class IatiDatastoreApiRepository {
-  // COMEBACK: Fix any issue
   async fetchData (params: IQueryParams): Promise<IIatiDatastoreApiResponse> {
     ('IatiDatastoreApiRepository::fetchData: Inside')
     const url = `https://api.iatistandard.org/datastore/${params.collection}/select?

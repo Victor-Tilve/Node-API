@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     container_name: redis
     ports:
-      - '6379'
+      - '${REDIS_PORT}'
     # command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81 # FIXME: do not expouse passwords, how long cache values will be stored
     volumes: 
       - redis:/data
@@ -18,7 +18,7 @@ services:
     volumes:
       - ./src:/api/src
     ports:
-      - "8080:8080"
+      - "${APIPORT}:${APIPORT}"
     command: >
       sh -c "npm run start"
     container_name: pulpo-coding-challenge_api
@@ -28,10 +28,10 @@ services:
       - redis
     environment:
       - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - REDIS_PASSWORD=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-      - PORT=8080
-      - PRIMARYKEY=19af81cd54c84e218adb728cf69fa96c
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - PORT=${APIPORT}
+      - PRIMARYKEY=${IATIAPI_PRIMARYKEY}
       - REDIS_URL=redis://redis
 volumes:
   redis:

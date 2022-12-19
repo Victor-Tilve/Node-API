@@ -8,7 +8,4 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 8080
-
-# COMEBACK: this is for running the start command inside the container
-# CMD ["npm", "run", "start"] 
+EXPOSE ${APIPORT}

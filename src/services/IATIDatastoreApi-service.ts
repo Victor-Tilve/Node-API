@@ -1,23 +1,7 @@
 import { IatiDatastoreApiRepository } from '../domain/repositories/IatiDatastoreApi-repository'
 // import { IIatiDatastoreApiDocs, IQueryParams, MonetaryAidResponse } from '../interfaces/transaction-interface'
 import { IIatiDatastoreApiResponse, IQueryParams, MonetaryAidResponse } from '../interfaces/transaction-interface'
-import * as redis from 'redis'
-// FIXME: config the time of the caching
-let redisClient
-void (async () => {
-  redisClient = redis.createClient({
-    socket: {
-      host: process.env.REDIS_HOST,
-      port: Number(process.env.REDIS_PORT)
-    },
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    url: process.env.REDIS_URL
-  })
-  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-  redisClient.on('error', (error) => console.error(`Error : ${error}`))
-  await redisClient.connect()
-})()
-
+import { redisClient } from '../infra/caching/redis/redis-connect'
 export class IatiDatastoreApiService {
   iatiDatastoreApiRepository: IatiDatastoreApiRepository
   constructor () {
@@ -28,15 +12,16 @@ export class IatiDatastoreApiService {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, prefer-const
     let monetaryAidResponse: MonetaryAidResponse
     let dataResponse: IIatiDatastoreApiResponse
+    const client = await redisClient()
     try {
       const countryCode = params.q.replace('recipient_country_code:', '')
-      const cacheResults = await redisClient.get(countryCode)
+      const cacheResults = await client.get(countryCode)
       if (cacheResults !== undefined && cacheResults != null && Object.keys(cacheResults).length !== 0) {
         monetaryAidResponse = JSON.parse(cacheResults)
       } else {
         dataResponse = await this.iatiDatastoreApiRepository.fetchData(params)
         monetaryAidResponse = this.processData(dataResponse)
-        await redisClient.set(countryCode, JSON.stringify(monetaryAidResponse))
+        await client.set(countryCode, JSON.stringify(monetaryAidResponse))
       }
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-plus-operands

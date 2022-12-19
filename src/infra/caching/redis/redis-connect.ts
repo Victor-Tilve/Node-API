@@ -7,6 +7,7 @@ export async function redisClient (): Promise<any> {
     },
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     url: process.env.REDIS_URL
+    // FIXME: use password
   })
   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   redisClient.on('error', (error) => console.error(`Error : ${error}`))

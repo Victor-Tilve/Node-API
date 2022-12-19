@@ -1,6 +1,16 @@
 version: "3"
 
 services:
+  redis:
+    image: redis:6.2-alpine
+    restart: unless-stopped
+    container_name: redis
+    ports:
+      - '6379'
+    # command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81 # FIXME: do not expouse passwords
+    volumes: 
+      - redis:/data
+
   api:
     build:
       context: .
@@ -12,3 +22,17 @@ services:
     command: >
       sh -c "npm run start"
     container_name: pulpo-coding-challenge_api
+    depends_on:
+      - redis
+    links:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      - PORT=8080
+      - PRIMARYKEY=19af81cd54c84e218adb728cf69fa96c
+      - REDIS_URL=redis://redis
+volumes:
+  redis:
+    driver: local

@@ -14,8 +14,7 @@ export class IatiDatastoreApiData implements IIatiDatastoreApiData {
     const now = new Date().toISOString()
     const dateYearsAgo = new Date(new Date().setFullYear(new Date().getFullYear() - yearsAgo)).toISOString()
 
-    // const numOfRows: number = 100000
-    const numOfRows: number = 10
+    const numOfRows: number = 100000 // FIXME: Make sure the api go all over the docs
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     const params: IQueryParams = {
       collection: 'transaction',

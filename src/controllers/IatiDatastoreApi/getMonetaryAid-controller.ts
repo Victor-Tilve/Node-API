@@ -4,7 +4,7 @@ import { badRequest, serverError, success } from '../../helpers/http-helper'
 import { IsoAlpha2 } from '../../helpers/ISOAlpha2-helper'
 import { Controller } from '../../interfaces/controller-interface'
 import { HttpRequest, HttpResponse } from '../../interfaces/http-interface'
-
+// FIXME: update name, add controller at the end
 export class IatiDatastoreGetMonetaryAid implements Controller {
   constructor (private readonly dataIATIDatastoreApi: IIatiDatastoreApiData) {
     this.dataIATIDatastoreApi = dataIATIDatastoreApi
@@ -13,11 +13,11 @@ export class IatiDatastoreGetMonetaryAid implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     const requiredProperties = ['countryCode']
     for (const prop of requiredProperties) {
-      if (httpRequest.body[prop] === undefined) {
+      if (httpRequest.params[prop] === undefined) {
         return badRequest(new MissingFormalParameter(prop))
       }
     }
-    const { countryCode } = httpRequest.body
+    const { countryCode } = httpRequest.params
 
     if (IsoAlpha2[countryCode] !== undefined) {
       try {

@@ -4,7 +4,8 @@
   "description": "Test Técnico Pulpo",
   "main": "src/main/server/server.ts",
   "scripts": {
-    "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/main/server/server.ts",
+    "start": "npx sucrase-node src/main/server/server.ts",
+    "Start:dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/main/server/server.ts",
     "test": "jest",
     "test:all": "npm test -- -c jest.config.all.ts",
     "test:coverage": "npm test -- --coverage",
@@ -50,7 +51,7 @@
     "axios": "^1.2.1",
     "express": "^4.18.2",
     "fast-glob": "^3.2.12",
-    "http": "^0.0.1-security",
-    "redis": "^4.5.1"
+    "redis": "^4.5.1",
+    "sucrase": "^3.29.0"
   }
 }

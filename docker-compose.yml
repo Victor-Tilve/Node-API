@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/api/src
+    ports:
+      - "8080:8080"
+    command: >
+      sh -c "npm run start"
+    container_name: pulpo-coding-challenge_api

@@ -1,16 +1,16 @@
 // import axios, { AxiosResponse } from 'axios'
 import axios from 'axios'
-import { IIatiDatastoreApiResponse, IQueryParams } from '../../interfaces/transaction-interface'
-// FIXME: Create an interface for this repository. Making service depending on the interface
-export class IatiDatastoreApiRepository {
-  // FIXME: Refatoring: fetchDataTransaction
-  async fetchData (params: IQueryParams): Promise<IIatiDatastoreApiResponse> {
-    ('IatiDatastoreApiRepository::fetchData: Inside')
-    const url = `https://api.iatistandard.org/datastore/${params.collection}/select?
+import { IIatiDatastoreApiRepository, IIatiDatastoreApiResponse, IQueryParams } from '../../interfaces/IatiDatastoreApi-interface'
+export class IatiDatastoreApiRepository implements IIatiDatastoreApiRepository {
+  async fetchDataTransactionLast5Years (params: IQueryParams): Promise<IIatiDatastoreApiResponse> {
+    const yearsAgo = 5
+    const now = new Date().toISOString()
+    const dateYearsAgo = new Date(new Date().setFullYear(new Date().getFullYear() - yearsAgo)).toISOString()
+    const url = `https://api.iatistandard.org/datastore/transaction/select?
     q=${params.q}&
-    fl=${params.fl}&
-    df=${params.df}&
-    fq=${params.fq}&
+    fl=transaction_value,transaction_value_currency,transaction_value_value_date,transaction_provider_org_narrative&
+    df=recipient_country_code&
+    fq=transaction_value_value_date:[${dateYearsAgo} TO ${now}]&
     rows=${params.rows}&
     start=${params.start}`
     // Deleting newLine characters

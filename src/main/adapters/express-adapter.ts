@@ -2,7 +2,6 @@ import { Request, Response } from 'express'
 import { Controller } from '../../interfaces/controller-interface'
 import { HttpRequest } from '../../interfaces/http-interface'
 
-// COMEBACK: WHy I'm user the adapter
 export const AdapterRoute = (controller: Controller) => {
   return async (req: Request, res: Response) => {
     const httpRequest: HttpRequest = {

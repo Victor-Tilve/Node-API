@@ -1,5 +1,5 @@
-import { MonetaryAidResponse } from '../../../interfaces/transaction-interface'
+import { MonetaryAidResponse } from '../../../interfaces/IatiDatastoreApi-interface'
 
 export interface IIatiDatastoreApiData {
-  getMonetaryAid: (countryCode: string) => Promise<MonetaryAidResponse>
+  getMonetaryAidLast5Years: (countryCode: string) => Promise<MonetaryAidResponse>
 }

@@ -1,3 +1,7 @@
+export interface IIatiDatastoreApiRepository {
+  fetchData: (params: IQueryParams) => Promise<IIatiDatastoreApiResponse>
+}
+
 export interface MonetaryAidResponse {
   [MonetaryAidYear: string]: {
     [organizationsAIdName: string]: number

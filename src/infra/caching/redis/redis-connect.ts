@@ -1,5 +1,5 @@
 import * as redis from 'redis'
-export async function redisClient (): Promise<any> {
+export async function redisCreateClient (): Promise<any> {
   const redisClient = redis.createClient({
     socket: {
       host: process.env.REDIS_HOST,

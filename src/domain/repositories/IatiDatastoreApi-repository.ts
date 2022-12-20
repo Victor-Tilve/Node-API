@@ -1,8 +1,8 @@
 // import axios, { AxiosResponse } from 'axios'
 import axios from 'axios'
-import { IIatiDatastoreApiResponse, IQueryParams } from '../../interfaces/transaction-interface'
+import { IIatiDatastoreApiRepository, IIatiDatastoreApiResponse, IQueryParams } from '../../interfaces/transaction-interface'
 // FIXME: Create an interface for this repository. Making service depending on the interface
-export class IatiDatastoreApiRepository {
+export class IatiDatastoreApiRepository implements IIatiDatastoreApiRepository {
   // FIXME: Refatoring: fetchDataTransaction
   async fetchData (params: IQueryParams): Promise<IIatiDatastoreApiResponse> {
     ('IatiDatastoreApiRepository::fetchData: Inside')

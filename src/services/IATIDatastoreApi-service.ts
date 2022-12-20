@@ -1,7 +1,6 @@
 import { IatiDatastoreApiRepository } from '../domain/repositories/IatiDatastoreApi-repository'
-// import { IIatiDatastoreApiDocs, IQueryParams, MonetaryAidResponse } from '../interfaces/transaction-interface'
-import { IIatiDatastoreApiResponse, IQueryParams, MonetaryAidResponse } from '../interfaces/transaction-interface'
-import { redisClient } from '../infra/caching/redis/redis-connect'
+import { IIatiDatastoreApiRepository, IIatiDatastoreApiResponse, IQueryParams, MonetaryAidResponse } from '../interfaces/transaction-interface'
+import { redisCreateClient } from '../infra/caching/redis/redis-connect'
 import { currencyConversion } from '../helpers/rateConversion-helper'
 
 /**
@@ -9,9 +8,8 @@ import { currencyConversion } from '../helpers/rateConversion-helper'
  */
 export class IatiDatastoreApiService {
   iatiDatastoreApiRepository: IatiDatastoreApiRepository
-  // FIXME: implement dependency injection. in this way I can not depend on an interface but a class
-  constructor () {
-    this.iatiDatastoreApiRepository = new IatiDatastoreApiRepository()
+  constructor (iatiDatastoreApiRepository: IIatiDatastoreApiRepository) {
+    this.iatiDatastoreApiRepository = iatiDatastoreApiRepository
   }
 
   /**
@@ -23,11 +21,10 @@ export class IatiDatastoreApiService {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, prefer-const
     let monetaryAidResponse = {} as MonetaryAidResponse
     let dataResponse: IIatiDatastoreApiResponse
-    // FIXME: change redisClient const name
-    const client = await redisClient()
+    const redisClient = await redisCreateClient()
     try {
       const countryCode = params.q.replace('recipient_country_code:', '')
-      const cacheResults = await client.get(countryCode)
+      const cacheResults = await redisClient.get(countryCode)
       if (cacheResults !== undefined && cacheResults != null && Object.keys(cacheResults).length !== 0) {
         monetaryAidResponse = JSON.parse(cacheResults)
       } else {
@@ -44,7 +41,7 @@ export class IatiDatastoreApiService {
           const temp = this.processData(dataResponse)
           monetaryAidResponse = this.gatherData(monetaryAidResponse, temp)
         }
-        await client.set(countryCode, JSON.stringify(monetaryAidResponse))
+        await redisClient.set(countryCode, JSON.stringify(monetaryAidResponse))
       }
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
@@ -75,7 +72,7 @@ export class IatiDatastoreApiService {
           transactionValueUSD = currencyConversion(currency, Number(transactionValue))
         }
 
-        // FIXME: CURRENT CONVERSION: I'll make this conversion without taking into account the year of the transaction
+        // NOTE: CURRENT CONVERSION: I'll make this conversion without taking into account the year of the transaction but Mon, 19 Dec 2022 23:55:01 GMT
         if (year !== undefined && transactionValueUSD !== undefined) {
           if (providerOrg !== undefined) {
             if (monetaryAidResponse[year]?.[providerOrg] !== undefined) {

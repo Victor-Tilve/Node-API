@@ -1,12 +1,12 @@
 import { IIatiDatastoreApiData } from '../../../domain/useCases/IATIDatastoreApi/IatiDatastoreApi-interface'
-import { IQueryParams, MonetaryAidResponse } from '../../../interfaces/transaction-interface'
+import { IIatiDatastoreApiRepository, IQueryParams, MonetaryAidResponse } from '../../../interfaces/transaction-interface'
 // import { IQueryParams, MonetaryAidResponse } from '../../../interfaces/transaction-interface'
 import { IatiDatastoreApiService } from '../../../services/IATIDatastoreApi-service'
 
 export class IatiDatastoreApiData implements IIatiDatastoreApiData {
   iatiDatastoreApiService: IatiDatastoreApiService
-  constructor () {
-    this.iatiDatastoreApiService = new IatiDatastoreApiService()
+  constructor (iatiDatastoreApiRepository: IIatiDatastoreApiRepository) {
+    this.iatiDatastoreApiService = new IatiDatastoreApiService(iatiDatastoreApiRepository)
   }
 
   async getMonetaryAid (countryCode: string): Promise<MonetaryAidResponse> {

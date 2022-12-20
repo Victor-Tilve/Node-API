@@ -8,6 +8,18 @@ export interface ICountryCode {
   [code: string]: string
 }
 
+export interface ICurrencyCode {
+  [alphaCode: string]: {
+    code: string
+    alphaCode: string
+    numericCode: string
+    name: string
+    rate: number
+    date: string
+    inverseRate: number
+  }
+}
+
 export interface IQueryParams {
   'collection': string
   'q': string

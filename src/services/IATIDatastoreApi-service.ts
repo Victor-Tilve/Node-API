@@ -2,6 +2,7 @@ import { IatiDatastoreApiRepository } from '../domain/repositories/IatiDatastore
 // import { IIatiDatastoreApiDocs, IQueryParams, MonetaryAidResponse } from '../interfaces/transaction-interface'
 import { IIatiDatastoreApiResponse, IQueryParams, MonetaryAidResponse } from '../interfaces/transaction-interface'
 import { redisClient } from '../infra/caching/redis/redis-connect'
+import { currencyConversion } from '../helpers/rateConversion-helper'
 
 /**
  *
@@ -62,20 +63,25 @@ export class IatiDatastoreApiService {
   private processData (dataResponse: IIatiDatastoreApiResponse): MonetaryAidResponse {
     const monetaryAidResponse: MonetaryAidResponse = {}
     const docs = dataResponse.response?.docs
+    let transactionValueUSD: number | undefined
     if (docs) {
       for (let index = 0; index < docs.length; index++) {
         const date = docs[index].transaction_value_value_date ?? undefined
         const year = date !== undefined ? new Date(date[0]).getFullYear() : undefined
         const providerOrg = docs[index].transaction_provider_org_narrative?.[0] ?? undefined
         const transactionValue = docs[index].transaction_value?.[0] ?? undefined
+        const currency = docs[index].transaction_value_currency?.[0] ?? undefined
+        if (currency !== undefined && transactionValue !== undefined) {
+          transactionValueUSD = currencyConversion(currency, Number(transactionValue))
+        }
 
-        // FIXME: I need to make the currency conversion
-        if (year !== undefined && transactionValue !== undefined) {
+        // FIXME: CURRENT CONVERSION: I'll make this conversion without taking into account the year of the transaction
+        if (year !== undefined && transactionValueUSD !== undefined) {
           if (providerOrg !== undefined) {
             if (monetaryAidResponse[year]?.[providerOrg] !== undefined) {
-              monetaryAidResponse[year][providerOrg] = Number(monetaryAidResponse[year][providerOrg]) + Number(transactionValue)
+              monetaryAidResponse[year][providerOrg] = Number(monetaryAidResponse[year][providerOrg]) + Number(transactionValueUSD)
             } else {
-              monetaryAidResponse[year] = { ...monetaryAidResponse[year], [providerOrg]: Number(transactionValue) }
+              monetaryAidResponse[year] = { ...monetaryAidResponse[year], [providerOrg]: Number(transactionValueUSD) }
             }
           }
         }

@@ -1,7 +1,7 @@
 import { IIatiDatastoreApiData } from '../../domain/useCases/IATIDatastoreApi/IatiDatastoreApi-interface'
 import { MissingFormalParameter, WrongCountryCode } from '../../errors/client-error'
 import { badRequest, serverError, success } from '../../helpers/http-helper'
-import { IsoAlpha2 } from '../../helpers/ISOAlpha2-helper'
+import { IsoAlpha2 } from '../../helpers/ISO3166Alpha2-helper'
 import { Controller } from '../../interfaces/controller-interface'
 import { HttpRequest, HttpResponse } from '../../interfaces/http-interface'
 // FIXME: update name, add controller at the end

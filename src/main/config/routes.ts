@@ -4,7 +4,6 @@ import fg from 'fast-glob'
 export default (app: Express): void => {
   const router = Router()
   app.use('/api', router)
-  // FIXME: what happen when the server is under javaScript
   fg.sync('src/main/routes/**routes.*')
     .map(async file => {
       const route = (await import(`../../../${file}`)).default

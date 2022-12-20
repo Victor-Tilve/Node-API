@@ -7,7 +7,7 @@ services:
     container_name: redis
     ports:
       - '${REDIS_PORT}'
-    # command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81 # FIXME: do not expouse passwords, how long cache values will be stored
+    # command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD} # FIXME: how long cache values will be stored
     volumes: 
       - redis:/data
 

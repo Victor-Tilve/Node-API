@@ -4,8 +4,7 @@ import { badRequest, serverError, success } from '../../helpers/http-helper'
 import { IsoAlpha2 } from '../../helpers/ISO3166Alpha2-helper'
 import { Controller } from '../../interfaces/controller-interface'
 import { HttpRequest, HttpResponse } from '../../interfaces/http-interface'
-// FIXME: update name, add controller at the end
-export class IatiDatastoreGetMonetaryAid implements Controller {
+export class IatiDatastoreGetMonetaryAidLast5YearsController implements Controller {
   constructor (private readonly dataIATIDatastoreApi: IIatiDatastoreApiData) {
     this.dataIATIDatastoreApi = dataIATIDatastoreApi
   }
@@ -21,7 +20,7 @@ export class IatiDatastoreGetMonetaryAid implements Controller {
 
     if (IsoAlpha2[countryCode] !== undefined) {
       try {
-        const monetaryAidResponse = await this.dataIATIDatastoreApi.getMonetaryAid(countryCode)
+        const monetaryAidResponse = await this.dataIATIDatastoreApi.getMonetaryAidLast5Years(countryCode)
         return success(monetaryAidResponse)
       } catch (error) {
         return serverError(error)

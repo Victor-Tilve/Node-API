@@ -5,5 +5,4 @@ import { makeGetMonetaryAidController } from '../factories/IatiDatastoreApi-fact
 export default (router: Router): void => {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   router.get('/monetary-aid/:countryCode', AdapterRoute(makeGetMonetaryAidController()))
-  // FIXME: a better way to declare a parameter :countryCode
 }

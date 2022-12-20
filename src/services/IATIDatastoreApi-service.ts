@@ -1,5 +1,5 @@
 import { IatiDatastoreApiRepository } from '../domain/repositories/IatiDatastoreApi-repository'
-import { IIatiDatastoreApiRepository, IIatiDatastoreApiResponse, IQueryParams, MonetaryAidResponse } from '../interfaces/transaction-interface'
+import { IIatiDatastoreApiRepository, IIatiDatastoreApiResponse, IQueryParams, MonetaryAidResponse } from '../interfaces/IatiDatastoreApi-interface'
 import { redisCreateClient } from '../infra/caching/redis/redis-connect'
 import { currencyConversion } from '../helpers/rateConversion-helper'
 
@@ -33,7 +33,7 @@ export class IatiDatastoreApiService {
         let numFound = start + 1
         while (numFound > start) {
           params.start = String(start)
-          dataResponse = await this.iatiDatastoreApiRepository.fetchData(params)
+          dataResponse = await this.iatiDatastoreApiRepository.fetchDataTransactionLast5Years(params)
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
           numFound = dataResponse.response?.numFound!
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain

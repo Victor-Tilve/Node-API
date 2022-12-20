@@ -1,4 +1,4 @@
-import { ICountryCode } from '../interfaces/transaction-interface'
+import { ICountryCode } from '../interfaces/IatiDatastoreApi-interface'
 
 export const IsoAlpha2: ICountryCode = {
   AF: 'Afghanistan',

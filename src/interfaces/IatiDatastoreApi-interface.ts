@@ -1,5 +1,5 @@
 export interface IIatiDatastoreApiRepository {
-  fetchData: (params: IQueryParams) => Promise<IIatiDatastoreApiResponse>
+  fetchDataTransactionLast5Years: (params: IQueryParams) => Promise<IIatiDatastoreApiResponse>
 }
 
 export interface MonetaryAidResponse {
@@ -25,13 +25,13 @@ export interface ICurrencyCode {
 }
 
 export interface IQueryParams {
-  'collection': string
+  'collection'?: string
   'q': string
-  'df': string
+  'df'?: string
   'start': string
-  'fq': string
+  'fq'?: string
   'rows': string
-  'fl': string
+  'fl'?: string
 }
 
 export interface IIatiDatastoreApiResponse {

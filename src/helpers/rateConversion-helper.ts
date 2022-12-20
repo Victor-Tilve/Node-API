@@ -1,4 +1,4 @@
-import { ICurrencyCode } from '../interfaces/transaction-interface'
+import { ICurrencyCode } from '../interfaces/IatiDatastoreApi-interface'
 
 const currency: ICurrencyCode = {
   EUR: {

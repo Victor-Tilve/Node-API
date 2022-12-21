@@ -29,6 +29,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    restart: unless-stopped
     volumes:
       - ./src:/api/src
     ports:

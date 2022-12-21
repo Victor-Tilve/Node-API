@@ -7,8 +7,8 @@ import { HttpRequest, HttpResponse } from '../../interfaces/http-interface'
 import bcrypt from 'bcrypt'
 
 export class RegistryUserController implements Controller {
-  constructor (private readonly registryUSer: ICreateUser) {
-    this.registryUSer = registryUSer
+  constructor (private readonly registryUser: ICreateUser) {
+    this.registryUser = registryUser
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -24,7 +24,7 @@ export class RegistryUserController implements Controller {
     const userName = (name as string).toUpperCase() + ' ' + (lastName as string).toUpperCase()
     const newUser = new User({ userName, hashPassword, email })
     try {
-      const createUserResponse = await this.registryUSer.createUser(newUser)
+      const createUserResponse = await this.registryUser.createUser(newUser)
       return success(createUserResponse)
     } catch (error) {
       return serverError(error)

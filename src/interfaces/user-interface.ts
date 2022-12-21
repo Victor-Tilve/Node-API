@@ -1,6 +1,9 @@
-import { HttpResponse } from './http-interface'
 
-export interface IBaseUser extends IBaseUserInput {
+export interface IUser {
+  user_id?: string
+  userName: string
+  password: string
+  email: string
 }
 
 export interface IBaseUserInput {
@@ -8,7 +11,7 @@ export interface IBaseUserInput {
   hashPassword: string
   email: string
 }
-
-export interface IDatabaseRepository {
-  createUser: (newUser: IBaseUserInput) => Promise<HttpResponse>
+export interface ILoginUserInput {
+  password: string
+  email: string
 }

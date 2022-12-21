@@ -1,6 +1,7 @@
 import { ICreateUser } from '../../../domain/useCases/user/createUser-interface'
+import { IDatabaseRepository } from '../../../interfaces/database-interface'
 import { HttpResponse } from '../../../interfaces/http-interface'
-import { IBaseUserInput, IDatabaseRepository } from '../../../interfaces/user-interface'
+import { IBaseUserInput } from '../../../interfaces/user-interface'
 import { DatabaseService } from '../../../services/database-service'
 // import { IQueryParams, MonetaryAidResponse } from '../../../interfaces/transaction-interface'
 

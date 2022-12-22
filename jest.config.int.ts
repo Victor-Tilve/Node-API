@@ -14,8 +14,7 @@ const config: Config = {
   moduleDirectories: ['node_modules'],
   testMatch: ['**/*test.ts'],
   modulePaths: [
-    '<rootDir>',
-    '<rootDir>/__mocks__/src/repositories/user/'
+    '<rootDir>'
   ]
 }
 

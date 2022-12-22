@@ -8,7 +8,6 @@ export default {
     '.+\\.ts$': 'ts-jest'
   },
   modulePaths: [
-    '<rootDir>',
-    '<rootDir>/__mocks__/src/repositories/user/'
+    '<rootDir>'
   ]
 }

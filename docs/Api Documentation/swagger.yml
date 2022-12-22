@@ -1,0 +1,267 @@
+openapi: "3.0.1"
+info:
+  title: Pulpo Challenge API
+  description: APi
+  version: 1.0.0
+paths:
+  /monetary-aid/{countryCode}:
+    get:
+      description: "Retrieve monetary aid data for a given country"
+      parameters:
+        - name: countryCode
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: "^[A-Z]{2}$"
+            description: "Two-letter country code"
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            description: "Bearer token"
+      responses:
+        200:
+          description: "Successful response with monetary aid data"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MonetaryResponse"
+              examples:
+                example:
+                  value:
+                    2010:
+                      International Federation of Red Cross and Red Crescent Societies: 7420.28
+                      International Labour Organization (ILO): 35133
+                    2011:
+                      Gavi, The Vaccine Alliance: 7420.28
+                      The Canadian Red Cross Society: 32135.3
+                    
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+                description: "Value for the `Access-Control-Allow-Origin` header"
+        400:
+          description: "Invalid request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: "Server error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /loginUser:
+    post:
+      description: "Log in to the application"
+      requestBody:
+        description: "Credentials for logging in"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: "email for logging in"
+                password:
+                  type: string
+                  description: "Password for logging in"
+              required:
+                - email
+                - password
+      responses:
+        200:
+          description: "Successful login"
+          content:
+            application/json:
+              schema:
+                type: "string"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+                description: "Value for the `Access-Control-Allow-Origin` header"
+        400:
+          description: "Invalid login request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: "Server error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /logoutUser:
+    delete:
+      description: "Log out of the application"
+      responses:
+        204:
+          description: "Successful logout"
+        400:
+          description: "Invalid logout request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: "Server error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /refresh-token:
+    post:
+      description: "Refresh an expired access token"
+      requestBody:
+        description: "Refresh token to be used to generate a new access token"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: "Refresh token of the session"
+                email:
+                  type: string
+                  description: "user email"
+              required:
+                - email
+                - token
+      responses:
+        200:
+          description: "Successful refresh"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    description: "New access token"
+                  refreshToken:
+                    type: string
+                    description: "New refresh token"
+        400:
+          description: "Invalid refresh request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: "Server error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /createUser:
+    post:
+      description: "Create a new user"
+      requestBody:
+        description: "Information for creating a new user"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: "First name of the user"
+                email:
+                  type: string
+                  description: "Email address of the user"
+                lastName:
+                  type: string
+                  description: "Last name of the user"
+                password:
+                  type: string
+                  description: "Password for the user"
+              required:
+                - name
+                - email
+                - lastName
+                - password
+      responses:
+        201:
+          description: "Successfully created a new user"
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: "Invalid user creation request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: "Server error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    MonetaryResponse:
+      type: object
+      properties:
+        MonetaryAidYear:
+          type: object
+          properties:
+            organizationsAIdName:
+              type: number
+          required:
+            - MonetaryAidYear
+            - organizationsAIdName
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          description: "Error code"
+        body:
+          type: string
+          description: "Error message"
+      required:
+        - statusCode
+        - body

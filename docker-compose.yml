@@ -55,6 +55,7 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_PORT=${DB_PORT}
+      - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN}
 
 volumes:
   redis:

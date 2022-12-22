@@ -15,3 +15,8 @@ export interface ILoginUserInput {
   password: string
   email: string
 }
+
+export interface IRefreshTokenInput {
+  token: string
+  email: string
+}

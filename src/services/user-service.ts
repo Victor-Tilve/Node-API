@@ -43,6 +43,14 @@ export class UserService {
     }
   }
 
+  async logoutUser (token: string): Promise<HttpResponse> {
+    UserService.refreshTokens = UserService.refreshTokens.filter((c) => c !== token)
+    return {
+      statusCode: 204,
+      body: ''
+    }
+  }
+
   refreshToken (refreshToken: IRefreshTokenInput): HttpResponse {
     if (!UserService.refreshTokens.includes(refreshToken.token)) {
       console.log('Refresh Token Invalid')

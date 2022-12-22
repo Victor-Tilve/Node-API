@@ -5,8 +5,8 @@ import { HttpRequest, HttpResponse } from '../../interfaces/http-interface'
 import { ILoginUser } from '../../domain/useCases/user/loginUser-interface'
 
 export class LoginUserController implements Controller {
-  constructor (private readonly loginUser: ILoginUser) {
-    this.loginUser = loginUser
+  constructor (private readonly loginUserData: ILoginUser) {
+    this.loginUserData = loginUserData
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -20,8 +20,8 @@ export class LoginUserController implements Controller {
     // const hashPassword = await this.hash(password)
 
     try {
-      const createUserResponse = await this.loginUser.loginUser({ password, email })
-      return success(createUserResponse)
+      const loginUserResponse = await this.loginUserData.loginUser({ password, email })
+      return success(loginUserResponse)
     } catch (error) {
       return serverError(error)
     }

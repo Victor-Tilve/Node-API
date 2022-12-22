@@ -1,17 +1,22 @@
+/* Defining an interface for a function that takes an object of type IQueryParams and returns a promise
+of type IIatiDatastoreApiResponse. */
 export interface IIatiDatastoreApiRepository {
   fetchDataTransactionLast5Years: (params: IQueryParams) => Promise<IIatiDatastoreApiResponse>
 }
 
+/* Defining the type of the response that we will get from the API. */
 export interface MonetaryAidResponse {
   [MonetaryAidYear: string]: {
     [organizationsAIdName: string]: number
   }
 }
 
+/* Defining an interface for an object that has a string as a key and a string as a value. */
 export interface ICountryCode {
   [code: string]: string
 }
 
+/* Defining an interface for the currency code. */
 export interface ICurrencyCode {
   [alphaCode: string]: {
     code: string
@@ -24,6 +29,7 @@ export interface ICurrencyCode {
   }
 }
 
+/* Defining an interface for the query parameters. */
 export interface IQueryParams {
   'collection'?: string
   'q': string
@@ -34,6 +40,7 @@ export interface IQueryParams {
   'fl'?: string
 }
 
+/* Defining the interface for the response from the API. */
 export interface IIatiDatastoreApiResponse {
   'responseHeader'?: {
     'zkConnected'?: boolean
@@ -44,6 +51,7 @@ export interface IIatiDatastoreApiResponse {
   'response'?: IAPIResponse
 }
 
+/* Defining the interface for the API response. */
 export interface IAPIResponse {
   'numFound'?: 0
   'start'?: 0
@@ -51,6 +59,7 @@ export interface IAPIResponse {
   'docs'?: IIatiDatastoreApiDocs[]
 }
 
+/* Defining the interface for the API docs. */
 export interface IIatiDatastoreApiDocs {
   'dataset_version'?: string
   'dataset_linked_data_default'?: string

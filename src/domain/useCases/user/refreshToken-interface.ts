@@ -1,6 +1,7 @@
 import { HttpResponse } from '../../../interfaces/http-interface'
 import { IRefreshTokenInput } from '../../../interfaces/user-interface'
 
-export interface IRefreshToken {
+/* Defining the interface for the data layer. */
+export interface IRefreshTokenData {
   refreshToken: (refreshToken: IRefreshTokenInput) => Promise<HttpResponse>
 }

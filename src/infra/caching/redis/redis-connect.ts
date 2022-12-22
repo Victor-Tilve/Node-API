@@ -1,4 +1,8 @@
 import * as redis from 'redis'
+/**
+ * It creates a Redis client and returns it
+ * @returns A promise that resolves to a redis client.
+ */
 export async function redisCreateClient (): Promise<any> {
   const redisClient = redis.createClient({
     socket: {

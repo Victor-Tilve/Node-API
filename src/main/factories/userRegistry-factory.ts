@@ -2,7 +2,7 @@ import { RegistryUserController } from '../../controllers/registry/registryUser-
 import { RegisterUserData } from '../../data/useCases/user/registerUser-data'
 import { DatabaseRepository } from '../../domain/repositories/dataBase-repository'
 
-export const makeUserRegistry = (): RegistryUserController => {
+export const makeUserRegistryController = (): RegistryUserController => {
   const databaseRepository = new DatabaseRepository()
   const registerUserData = new RegisterUserData(databaseRepository)
   const registryUserController = new RegistryUserController(registerUserData)

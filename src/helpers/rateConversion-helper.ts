@@ -1335,6 +1335,13 @@ const currency: ICurrencyCode = {
   }
 }
 
+/**
+ * If the currencyCode is a key in the currency object, then return the rate of that currency
+ * multiplied by the amount, otherwise return undefined.
+ * @param {string} currencyCode - The currency code of the currency you want to convert to.
+ * @param {number} amount - number - The amount of money to convert
+ * @returns A number or undefined
+ */
 export const currencyConversion = (currencyCode: string, amount: number): number | undefined => {
   let conversion: number | undefined
   const currencyIndexes = Object.keys(currency)

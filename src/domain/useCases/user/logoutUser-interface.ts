@@ -1,5 +1,6 @@
 import { HttpResponse } from '../../../interfaces/http-interface'
 
-export interface ILogoutUser {
+/* Defining the interface for the data layer. */
+export interface ILogoutUserData {
   logoutUser: (token: string) => Promise<HttpResponse>
 }

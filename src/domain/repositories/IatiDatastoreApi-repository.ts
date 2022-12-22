@@ -1,7 +1,14 @@
 // import axios, { AxiosResponse } from 'axios'
 import axios from 'axios'
 import { IIatiDatastoreApiRepository, IIatiDatastoreApiResponse, IQueryParams } from '../../interfaces/IatiDatastoreApi-interface'
+
+/* It fetches data from the IATI Datastore API, and returns the response as an object */
 export class IatiDatastoreApiRepository implements IIatiDatastoreApiRepository {
+/**
+ * It fetches data from the IATI Datastore API, and returns the response as an object
+ * @param {IQueryParams} params - IQueryParams
+ * @returns an object of type IIatiDatastoreApiResponse.
+ */
   async fetchDataTransactionLast5Years (params: IQueryParams): Promise<IIatiDatastoreApiResponse> {
     const yearsAgo = 5
     const now = new Date().toISOString()

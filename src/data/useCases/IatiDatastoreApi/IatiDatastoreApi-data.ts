@@ -3,12 +3,18 @@ import { IIatiDatastoreApiRepository, IQueryParams, MonetaryAidResponse } from '
 // import { IQueryParams, MonetaryAidResponse } from '../../../interfaces/transaction-interface'
 import { IatiDatastoreApiService } from '../../../services/IATIDatastoreApi-service'
 
+/* It's a class that uses the IatiDatastoreApiService to get data from the IATI Datastore API */
 export class IatiDatastoreApiData implements IIatiDatastoreApiData {
   iatiDatastoreApiService: IatiDatastoreApiService
   constructor (iatiDatastoreApiRepository: IIatiDatastoreApiRepository) {
     this.iatiDatastoreApiService = new IatiDatastoreApiService(iatiDatastoreApiRepository)
   }
 
+  /**
+ * It gets the last 5 years of monetary aid data for a given country
+ * @param {string} countryCode - The country code of the country you want to get the data for.
+ * @returns MonetaryAidResponse
+ */
   async getMonetaryAidLast5Years (countryCode: string): Promise<MonetaryAidResponse> {
     const numOfRows: number = 100000
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions

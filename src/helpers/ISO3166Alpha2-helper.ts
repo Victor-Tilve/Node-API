@@ -1,5 +1,6 @@
 import { ICountryCode } from '../interfaces/IatiDatastoreApi-interface'
 
+/* A TypeScript object that is used to map the country code to the country name. */
 export const IsoAlpha2: ICountryCode = {
   AF: 'Afghanistan',
   AX: 'Aland Islands',

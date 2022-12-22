@@ -3,7 +3,13 @@ import { IDatabaseRepository } from '../../interfaces/database-interface'
 import { HttpResponse } from '../../interfaces/http-interface'
 import { IBaseUserInput, IUser } from '../../interfaces/user-interface'
 
+/* It takes a user object, and inserts it into the database */
 export class DatabaseRepository implements IDatabaseRepository {
+/**
+ * It takes a user object, and inserts it into the database
+ * @param {IBaseUserInput} newUser - IBaseUserInput
+ * @returns an object with a statusCode and a body.
+ */
   async createUser (newUser: IBaseUserInput): Promise<HttpResponse> {
     const { userName, hashPassword, email } = newUser
     try {
@@ -25,6 +31,12 @@ export class DatabaseRepository implements IDatabaseRepository {
     }
   }
 
+  /**
+ * It takes an email address as a string, and returns a user object if the email address exists in the
+ * database, or undefined if it doesn't
+ * @param {string} email - string - The email of the user you want to get
+ * @returns The user object
+ */
   async getUserByEmail (email: string): Promise<IUser | undefined> {
     let response: any
     try {

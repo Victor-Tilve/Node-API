@@ -3,9 +3,6 @@ import { IIatiDatastoreApiRepository, IIatiDatastoreApiResponse, IQueryParams, M
 import { redisCreateClient } from '../infra/caching/redis/redis-connect'
 import { currencyConversion } from '../helpers/rateConversion-helper'
 
-/**
- *
- */
 export class IatiDatastoreApiService {
   iatiDatastoreApiRepository: IatiDatastoreApiRepository
   constructor (iatiDatastoreApiRepository: IIatiDatastoreApiRepository) {
@@ -13,15 +10,17 @@ export class IatiDatastoreApiService {
   }
 
   /**
-   *
-   * @param params
-   * @returns
-  */
+ * It fetches data from the IATI Datastore API, processes it, and returns the processed data
+ * @param {IQueryParams} params - IQueryParams
+ * @returns a MonetaryAidResponse object.
+ */
   async getData (params: IQueryParams): Promise<MonetaryAidResponse> {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, prefer-const
     let monetaryAidResponse = {} as MonetaryAidResponse
     let dataResponse: IIatiDatastoreApiResponse
     const redisClient = await redisCreateClient()
+    /* Checking if the data is already in the cache, if it is, it will return the data from the cache, if
+    it isn't, it will fetch the data from the API, process it, and return it. */
     try {
       const countryCode = params.q.replace('recipient_country_code:', '')
       const cacheResults = await redisClient.get(countryCode)
@@ -53,14 +52,24 @@ export class IatiDatastoreApiService {
   }
 
   /**
-   *
-   * @param dataResponse
-   * @returns MonetaryAidResponse
-  */
+ * It takes the response from the IATI Datastore API and returns an object with the monetary aid
+ * received by the country in each year
+ * @param {IIatiDatastoreApiResponse} dataResponse - IIatiDatastoreApiResponse
+ * @returns an object with the following structure:
+ * ```
+ * {
+ *   year: {
+ *     providerOrg: value
+ *   }
+ * }
+ * ```
+ */
   private processData (dataResponse: IIatiDatastoreApiResponse): MonetaryAidResponse {
     const monetaryAidResponse: MonetaryAidResponse = {}
     const docs = dataResponse.response?.docs
     let transactionValueUSD: number | undefined
+    /* Going through the response from the API call, and it is creating an object with the monetary aid
+    received by the country in each year. */
     if (docs) {
       for (let index = 0; index < docs.length; index++) {
         const date = docs[index].transaction_value_value_date ?? undefined
@@ -88,22 +97,19 @@ export class IatiDatastoreApiService {
   }
 
   /**
- *
- * @param monetaryAidResponse
- * @param tempMonetaryAidResponse
- * @returns monetaryAidResponse updated
- * the number of transaction depend on the country. A number of rows per request is set, this number might be bigger or smaller than numFound, which is the total
- * of transaction that exist for that specific country. So there might be a situation where the number of rows < numFound and where it is necessary to make more than
- * one request to get all the transactions included in the answer. Due to that, this function is created, for gathering the information of the previews formatter object (monetaryAidResponse) with
- * last request (tempMonetaryAidResponse).
+ * It takes two objects, and merges them together, adding the values of the same keys
+ * @param {MonetaryAidResponse} monetaryAidResponse - The object that will be returned
+ * @param {MonetaryAidResponse} tempMonetaryAidResponse - The response from the API call
+ * @returns a MonetaryAidResponse object.
  */
   private gatherData (monetaryAidResponse: MonetaryAidResponse, tempMonetaryAidResponse: MonetaryAidResponse): MonetaryAidResponse {
     const monetaryAidResponseKeys = Object.keys(monetaryAidResponse)
     const tempMonetaryAidResponseKeys = Object.keys(tempMonetaryAidResponse)
 
-    /**
-     * Going all over the tempMonetaryAidResponseKeys, checking if already exist in monetaryAidResponse
-     */
+    /* Checking if the year already exists in the monetaryAidResponse, if it does, it will check if the
+    providerOrg already exists, if it does, it will add the transactionValue to the existing one, if it
+    doesn't, it will add the providerOrg and the transactionValue to the year. If the year doesn't
+    exist, it will add the year and the providerOrg and the transactionValue. */
     for (let index = 0; index < tempMonetaryAidResponseKeys.length; index++) {
       const year = tempMonetaryAidResponseKeys[index]
       if (!monetaryAidResponseKeys.includes(year)) {

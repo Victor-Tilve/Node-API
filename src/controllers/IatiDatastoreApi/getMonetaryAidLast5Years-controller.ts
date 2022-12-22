@@ -4,11 +4,20 @@ import { badRequest, serverError, success } from '../../helpers/http-helper'
 import { IsoAlpha2 } from '../../helpers/ISO3166Alpha2-helper'
 import { Controller } from '../../interfaces/controller-interface'
 import { HttpRequest, HttpResponse } from '../../interfaces/http-interface'
+
+/* It takes a country code as a parameter, checks if it's a valid country code, and if it is, it calls
+the dataIATIDatastoreApi to get the monetary aid data for that country */
 export class IatiDatastoreGetMonetaryAidLast5YearsController implements Controller {
   constructor (private readonly dataIATIDatastoreApi: IIatiDatastoreApiData) {
     this.dataIATIDatastoreApi = dataIATIDatastoreApi
   }
 
+  /**
+   * It takes a country code as a parameter, checks if it's a valid country code, and if it is, it
+   * calls the dataIATIDatastoreApi to get the monetary aid data for that country
+   * @param {HttpRequest} httpRequest - HttpRequest
+   * @returns A promise of an HttpResponse
+   */
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     const requiredProperties = ['countryCode']
     for (const prop of requiredProperties) {

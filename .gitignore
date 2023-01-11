@@ -105,3 +105,6 @@ dist
 
 # Testing queries to the API
 Consultas
+
+# Env variables
+tools

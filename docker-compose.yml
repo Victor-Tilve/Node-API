@@ -36,7 +36,7 @@ services:
       - "${APIPORT}:${APIPORT}"
     command: >
       sh -c "npm run start"
-    container_name: pulpo-coding-challenge_api
+    container_name: API
     depends_on:
       - redis
       - db
